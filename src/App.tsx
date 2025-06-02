@@ -21,6 +21,8 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
+import AddProduct from './pages/AddProduct'; // ✅ AddProduct is in /pages
+import AdminRoute from './components/AdminRoute.tsx'; // ✅ Route guard for admin
 
 function App() {
   return (
@@ -43,9 +45,10 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 
                 {/* Admin routes */}
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/admin/products/new" element={<ProductForm />} />
-                <Route path="/admin/products/:id" element={<ProductForm />} />
+                <Route path="/admin" element={<AdminRoute element={<AdminDashboard />} />} />
+                <Route path="/admin/products/new" element={<AdminRoute element={<ProductForm />} />} />
+                <Route path="/admin/products/:id" element={<AdminRoute element={<ProductForm />} />} />
+                <Route path="/admin/add-product" element={<AdminRoute element={<AddProduct />} />} /> {/* ✅ New route */}
                 
                 {/* 404 route */}
                 <Route path="*" element={<NotFoundPage />} />
