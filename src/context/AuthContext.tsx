@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
+import {
   User as FirebaseUser,
-  onAuthStateChanged, 
-  createUserWithEmailAndPassword, 
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut as firebaseSignOut,
-  updateProfile
+  updateProfile,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db, googleProvider } from '../lib/firebase';
@@ -23,7 +23,6 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
-
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -35,17 +34,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, async (user: FirebaseUser | null) => {
       if (user) {
         try {
-          // Check admin role in 'admins' collection by UID
-          const adminDocRef = doc(db, 'admins', user.uid);
-          const adminDocSnap = await getDoc(adminDocRef);
-          const userIsAdmin = adminDocSnap.exists() && adminDocSnap.data().role === 'admin';
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDocSnap = await getDoc(userDocRef);
+          const userData = userDocSnap.data();
+
+          const userIsAdmin = userDocSnap.exists() && userData?.isAdmin === true;
 
           setCurrentUser({
             uid: user.uid,
             email: user.email || '',
             displayName: user.displayName || undefined,
             photoURL: user.photoURL || undefined,
-            isAdmin: userIsAdmin
+            isAdmin: userIsAdmin,
           });
           setIsAdmin(userIsAdmin);
         } catch (error) {
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             email: user.email || '',
             displayName: user.displayName || undefined,
             photoURL: user.photoURL || undefined,
-            isAdmin: false
+            isAdmin: false,
           });
           setIsAdmin(false);
         }
@@ -73,20 +73,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Update profile displayName
       if (auth.currentUser) {
-        await updateProfile(auth.currentUser, {
-          displayName: name
-        });
+        await updateProfile(auth.currentUser, { displayName: name });
       }
 
-      // Create user document in 'users' collection (regular users, no admin here)
       await setDoc(doc(db, 'users', userCredential.user.uid), {
         uid: userCredential.user.uid,
         email,
         displayName: name,
         isAdmin: false,
-        createdAt: Date.now()
+        createdAt: Date.now(),
       });
     } catch (error) {
       console.error('Error in signup:', error);
@@ -108,19 +104,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      // Check if user document exists
       const userRef = doc(db, 'users', user.uid);
       const docSnap = await getDoc(userRef);
 
       if (!docSnap.exists()) {
-        // Create new user document for Google sign-in (regular user)
         await setDoc(userRef, {
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
           isAdmin: false,
-          createdAt: Date.now()
+          createdAt: Date.now(),
         });
       }
     } catch (error) {
@@ -138,19 +132,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const value = {
+  const value: AuthContextType = {
     currentUser,
     loading,
     signUp,
     signIn,
     signInWithGoogle,
     signOut,
-    isAdmin
+    isAdmin,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
