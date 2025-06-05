@@ -30,7 +30,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          
+
           {/* Shop */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Shop</h3>
@@ -41,58 +41,58 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/products?sort=new" className="text-gray-400 hover:text-white">
                   New Arrivals
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/products?featured=true" className="text-gray-400 hover:text-white">
                   Featured Products
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/products?discount=true" className="text-gray-400 hover:text-white">
                   Discounts
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
-          
+
           {/* Customer Service */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/contact" className="text-gray-400 hover:text-white">
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/shipping" className="text-gray-400 hover:text-white">
                   Shipping Information
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/returns" className="text-gray-400 hover:text-white">
                   Returns & Exchanges
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/faq" className="text-gray-400 hover:text-white">
                   FAQs
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
-          
+
           {/* About */}
           <div>
             <h3 className="text-lg font-semibold mb-4">About</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/about" className="text-gray-400 hover:text-white">
                   Our Story
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-white">
@@ -100,24 +100,24 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/about#careers" className="text-gray-400 hover:text-white">
                   Careers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/terms" className="text-gray-400 hover:text-white">
                   Terms & Conditions
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link to="/privacy" className="text-gray-400 hover:text-white">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
             &copy; {new Date().getFullYear()} INDRA'S MART. All rights reserved.
@@ -136,3 +136,4 @@ const Footer = () => {
 };
 
 export default Footer;
+// This code defines a Footer component for an e-commerce website using React and Tailwind CSS.

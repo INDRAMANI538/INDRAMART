@@ -22,6 +22,13 @@ import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
 
+// Newly added footer-related pages
+import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
+import FAQPage from './pages/FAQPage';
+import ShippingPage from './pages/ShippingPage';
+import ReturnsPage from './pages/ReturnsPage';
+
 function App() {
   return (
     <AuthProvider>
@@ -46,7 +53,14 @@ function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/products/new" element={<ProductForm />} />
                 <Route path="/admin/products/:id" element={<ProductForm />} />
-                
+
+                {/* Footer pages */}
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/shipping" element={<ShippingPage />} />
+                <Route path="/returns" element={<ReturnsPage />} />
+
                 {/* 404 route */}
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
@@ -54,7 +68,7 @@ function App() {
             
             <Footer />
           </div>
-          
+
           <Toaster 
             position="top-right"
             toastOptions={{
